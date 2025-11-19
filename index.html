@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BitZero is a decentralized experiment and staking protocol project on the Base blockchain.">
+    <meta name="keywords" content="BitZero, Crypto, Base Chain, Decentralized, Experiment">
     <meta name="google-site-verification" content="fXyV8kMCbwd6IGTc80MJOLU5FUD6DNyPzOvxY6RH-4U" />
     <title>BitZero - Decentralized Protocol</title>
     <link rel="icon" type="image/x-icon" sizes="3002x300" href="https://avatars.githubusercontent.com/u/236363013?v=4.jpg">
@@ -143,9 +145,9 @@
     </div>
     <div class="card-body" style="height: 200px; overflow: hidden; position: relative;">
         <div id="terminal-logs" style="font-family: 'VT323'; color: #00ffff; font-size: 16px;">
-            <p>> Initializing connection to Base Chain...</p>
-            <p>> Connected. Syncing data...</p>
-        </div>
+    <p>> Initializing connection to Base Chain... [OK]</p>
+    <p>> Connected to Mainnet.</p>
+    <p>> System Ready.</p></div>
     </div>
 </section>
             
@@ -224,29 +226,6 @@
         const contractAddr = "0x853c1A7587413262A0a7dC2526a8aD62497a56c0";
         navigator.clipboard.writeText(contractAddr).then(() => {alert("Contract Address Copied to Clipboard!");});
     }
-    const logsContainer = document.getElementById('terminal-logs');
-    const sysActions = ["SYNCING_NODE", "VERIFYING_HASH", "CHECKING_PEERS", "UPTIME_CHECK", "PING"];
-    const sysStatus = ["OK", "24ms", "SYNCED", "CONNECTED", "ACTIVE"];
-
-    function addLog() {
-        const action = sysActions[Math.floor(Math.random() * sysActions.length)];
-        const status = sysStatus[Math.floor(Math.random() * sysStatus.length)];
-        const time = new Date().toLocaleTimeString();
-        let message = `> [${time}] ${action}: Process ID ${Math.floor(Math.random() * 9999)}... ${status}`;
-        if(Math.random() > 0.7) {
-            message = `> [${time}] SYSTEM: New Block Header #${Math.floor(Math.random() * 9000000)} received.`;
-        }
-
-        const p = document.createElement('p');
-        p.className = "log-entry";
-        p.textContent = message;
-        logsContainer.prepend(p);
-        
-        if (logsContainer.children.length > 8) {
-            logsContainer.removeChild(logsContainer.lastChild);
-        }
-    }
-    setInterval(addLog, 1500);
 </script>
 </body>
-                </html>
+</html>
