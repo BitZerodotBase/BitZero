@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="fXyV8kMCbwd6IGTc80MJOLU5FUD6DNyPzOvxY6RH-4U" />
-    <title>BitZero - Project Documentation</title>
+    <title>BitZero - Decentralized Protocol</title>
     <link rel="icon" type="image/x-icon" sizes="3002x300" href="https://avatars.githubusercontent.com/u/236363013?v=4.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="core.css">
     <style>
-        .disclaimer { font-size: 10px; color: #666; margin-top: 20px; text-align: center; padding: 0 20px; }
+        .legal-disclaimer { font-size: 10px; color: #555; text-align: center; margin-top: 20px; font-family: sans-serif; }
     </style>
 </head>
 <body>
     <header class="header container">
         <h1 class="glitch" data-text="BitZero">BitZero</h1>
         <div class="wallet-section">
-            <button onclick="window.location.href='https://bitzero-bitstake.vercel.app/'">[ Launch App 
+            <button onclick="window.location.href='https://bitzero-bitstake.vercel.app/'">[ BitStake dApp 
                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link w-3.5 h-3.5">
+                    <path d="M15 3h6v6"></path><path d="M10 14 21 3"></path>
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                </svg> ]</button>
+            <button onclick="window.location.href='https://bitzero-bitnode.vercel.app/'">[ Nodes dApp 
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link w-3.5 h-3.5">
                     <path d="M15 3h6v6"></path><path d="M10 14 21 3"></path>
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                 </svg> ]</button>
@@ -37,12 +42,19 @@
                     </div>
                 </div>
                 <div class="card-body welcome-card-body">
-                    <h2>Welcome to BitZero [BIT] - Experimental Decentralized Logic.</h2>
-                    <p>BitZero represents efficiency and the potential of decentralized computing. This is a community project.</p>
+                    <h2>Welcome to BitZero [BIT] A crypto token inspired by binary computation. Built on the concept of bit [1] and zero [0].</h2>
+                    <p>Our ecosystem empowers users through community-governed staking and node participation.</p>
                     
                     <ul>
                         <li>
-                            <strong>Protocol Info:</strong> Explore our documentation and smart contract mechanics.
+                            <strong>BitStake:</strong> Stake your $BIT tokens to participate in DAO.
+                            <br>
+                            <a href="https://bitzero-bitstake.vercel.app/">[ Launch BitStake ]</a>
+                        </li>
+                        <li>
+                            <strong>BitZero Nodes:</strong> Activate a node to help validate the ecosystem.
+                            <br>
+                            <a href="https://bitzero-bitnode.vercel.app/">[ Launch Nodes Dashboard ]</a>
                         </li>
                     </ul>
                 </div>
@@ -50,7 +62,7 @@
 
             <section class="card terminal-card" id="tokenomics-stats">
                 <div class="card-header">
-                    <span class="card-title">C:\DATA\INFO</span>
+                    <span class="card-title">C:\DATA\TOKENOMICS</span>
                     <div class="window-buttons">
                         <div class="window-button">-</div>
                         <div class="window-button">□</div>
@@ -67,34 +79,79 @@
                         <p><strong>$BIT</strong></p>
                     </div>
                     <div class="stat-item">
-                        <p>Network:</p>
+                        <p>Chain:</p>
                         <p><strong>Base</strong></p>
+                    </div>
+                    <div class="stat-item">
+                        <p>Total Supply:</p>
+                        <p><strong>10,000,000,000</strong></p>
                     </div>
                     <div class="stat-item">
                         <p>Contract:</p>
                         <p><a href="https://basescan.org/address/0x853c1A7587413262A0a7dC2526a8aD62497a56c0" target="_blank">[ View on BaseScan ]</a></p>
+                    </div>
+                    <div class="actions" style="margin-top: 15px;">
+                         <a href="takenomics.json" target="_blank" class="scanline-button" style="text-align: center; padding: 10px; display: block;">[ View Full Allocations ]</a>
                     </div>
                 </div>
             </section>
 
             <section class="card terminal-card">
             <div class="card-header">
-              <span class="card-title">C:\SYSTEM\LINKS</span>
+              <span class="card-title">C:\SYSTEM\ABOUT</span>
             </div>
             <div class="card-body">
-                <p>> Official Resources:</p>
+                <p>> Official Links:</p>
                 <div class="scanline-button" style="text-align: center; margin-top: 15px;">
                     <a href="https://github.com/BitZerodotBase" target="_blank">[ GitHub ]</a>
                     <a href="https://x.com/BitZerodotBase" target="_blank">[ Twitter ]</a><br><br>
                     <a href="takenomics.json" target="_blank">[ Tokenomics ]</a><br><br>
-                    <a href="https://github.com/BitZerodotBase/contract" target="_blank">[ Source Code ]</a>
+                    <a href="https://github.com/BitZerodotBase/contract" target="_blank">[ Contract ]</a>
+                    <span style="color:gray; cursor:not-allowed">[ Public Sale: Closed ]</span>
                 </div>
             </div>
         </section>
 
+            <section class="card terminal-card">
+    <div class="card-header">
+        <span class="card-title">C:\HELP\FAQ</span>
+    </div>
+    <div class="card-body">
+        <details class="terminal-details">
+            <summary>> [DIR] What is BitZero?</summary>
+            <p class="folder-content">BitZero is a decentralized experiment on Base chain, focusing on binary logic.</p>
+        </details>
+        <details class="terminal-details">
+            <summary>> [DIR] How to buy?</summary>
+            <p class="folder-content">1. Bridge ETH to Base<br>2. Wait for Launch<br>3. Paste Contract Address<br>4. Swap ETH for $BIT</p>
+        </details>
+        <details class="terminal-details">
+            <summary>> [DIR] Node Benefits?</summary>
+            <p class="folder-content">Running a node requires 1000 $BIT collateral. Operators help validate the network.</p>
+        </details>
+    </div>
+</section>
+
+            <section class="card terminal-card full-width">
+    <div class="card-header">
+        <span class="card-title">C:\SYSTEM\NETWORK_STATUS.LOG</span>
+        <div class="window-buttons">
+            <div class="window-button">-</div>
+            <div class="window-button">□</div>
+            <div class="window-button">×</div>
+        </div>
+    </div>
+    <div class="card-body" style="height: 200px; overflow: hidden; position: relative;">
+        <div id="terminal-logs" style="font-family: 'VT323'; color: #00ffff; font-size: 16px;">
+            <p>> Initializing connection to Base Chain...</p>
+            <p>> Connected. Syncing data...</p>
+        </div>
+    </div>
+</section>
+            
         <section class="card terminal-card roadmap-card" id="roadmap">
                 <div class="card-header">
-                    <span class="card-title">C:\SYSTEM\ROADMAP.TXT</span>
+                    <span class="card-title">C:\SYSTEM\ROADMAP</span>
                     <div class="window-buttons">
                         <div class="window-button">-</div>
                         <div class="window-button">□</div>
@@ -106,11 +163,31 @@
                         <h2>Phase I</h2>
                         <ul>
                           <li>> Deploy Token</li>
-                          <li>> Community Building</li>
-                          <li>> dApp Deployment</li>
+                          <li>> Initial Community Building</li>
+                          <li>> Deploy dApps</li>
+                        </ul>
+                    </div>
+              
+                    <div class="stage">
+                        <h2>Phase II</h2>
+                        <ul>
+                          <li>> Secure DEX Listings</li>
+                          <li>> dApp Integrations</li>
                         </ul>
                     </div>
                 </div>
+            </section>
+
+            <section class="card terminal-card" style="text-align: center;">
+            <div class="card-header">
+              <span class="card-title">C:\SYSTEM\IMAGES</span>
+            </div>
+            <div class="card-body">
+                <p>> BitImages</p>
+                <div  class="scanline-button">
+                <img src="images/bitzero-img.png" width="200px">
+            </div>
+            </div>
             </section>
 
             <section class="card terminal-card">
@@ -118,11 +195,20 @@
               <span class="card-title">C:\TOKEN\CA</span>
             </div>
                 <div class="card-body">
-                <p>Contract Address:</p>
+                <p>Contract:</p>
                 <p style="display: flex; align-items: center; gap: 10px;">
-                    <span id="contractText" style="font-size: 0.8em;">0x853c...56c0</span>
+                    <a href="https://basescan.org/address/0x853c1A7587413262A0a7dC2526a8aD62497a56c0" target="_blank" id="contractText">0x853...56c0</a>
                     <button class="small-button" onclick="copyContract()">[COPY]</button></p>
                 </div>
+            </section>
+
+            <section class="card terminal-card full-width">
+            <div class="card-header">
+              <span class="card-title">C:\TOKEN\TICKER</span>
+            </div>
+            <div class="card-body">
+                <h1><marquee>00100100 01000010 01001001 01010100</marquee></h1>
+            </div>
             </section>
 
         </div>
@@ -130,19 +216,37 @@
 
     <footer class="footer container">
         <p style="margin-top: 15px;">Powered By BitZero</p>
-        <p class="disclaimer">
-            Disclaimer: BitZero is an experimental community project. Nothing on this website constitutes financial advice. 
-            Please do your own research before interacting with any smart contracts.
-        </p>
+        <p class="legal-disclaimer">BitZero is an open-source experiment. Not financial advice.</p>
     </footer>
 
 <script>
     function copyContract() {
         const contractAddr = "0x853c1A7587413262A0a7dC2526a8aD62497a56c0";
-        navigator.clipboard.writeText(contractAddr).then(() => {
-            alert("Contract Address Copied!");
-        });
+        navigator.clipboard.writeText(contractAddr).then(() => {alert("Contract Address Copied to Clipboard!");});
     }
+    const logsContainer = document.getElementById('terminal-logs');
+    const sysActions = ["SYNCING_NODE", "VERIFYING_HASH", "CHECKING_PEERS", "UPTIME_CHECK", "PING"];
+    const sysStatus = ["OK", "24ms", "SYNCED", "CONNECTED", "ACTIVE"];
+
+    function addLog() {
+        const action = sysActions[Math.floor(Math.random() * sysActions.length)];
+        const status = sysStatus[Math.floor(Math.random() * sysStatus.length)];
+        const time = new Date().toLocaleTimeString();
+        let message = `> [${time}] ${action}: Process ID ${Math.floor(Math.random() * 9999)}... ${status}`;
+        if(Math.random() > 0.7) {
+            message = `> [${time}] SYSTEM: New Block Header #${Math.floor(Math.random() * 9000000)} received.`;
+        }
+
+        const p = document.createElement('p');
+        p.className = "log-entry";
+        p.textContent = message;
+        logsContainer.prepend(p);
+        
+        if (logsContainer.children.length > 8) {
+            logsContainer.removeChild(logsContainer.lastChild);
+        }
+    }
+    setInterval(addLog, 1500);
 </script>
 </body>
-    </html>
+                </html>
