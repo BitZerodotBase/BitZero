@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../core.css">
+    <link rel="icon" type="image/png" sizes="152x152" href="https://bitzerodotbase.xyz/images/236363013.png">
+    <title>BitStake</title>
+    <meta name="description" content="Stake BitStake to validator nodes to earn rewards, participate in DAO governance, and secure the BitZero network on Base Chain.">
+    <link rel="author" href="https://bitzerodotbase.xyz">
+    <meta name="author" content="Bitzero Community">
+    <meta name="keywords" content="BitZero, bitzero base, Bitstake, Crypto, Base Chain, Base network, Decentralized, Experiment, Staking, crypto project">
+    <meta name="publisher" content="BitZero Community">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bitzerodotbase.xyz">
+    <meta property="og:title" content="Bitzero Community">
+    <meta property="og:description" content="Stake BitStake to validator nodes to earn rewards, participate in DAO governance, and secure the BitZero network on Base Chain.">
+    <meta property="og:url" content="https://bitzerodotbase.xyz">
+    <meta property="og:site_name" content="Bitzero Community">
+    <meta property="og:image" content="https://bitzerodotbase.xyz/images/bitstake_preview.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bitzero Community">
+    <meta name="twitter:description" content="Stake BitStake to validator nodes to earn rewards, participate in DAO governance, and secure the BitZero network on Base Chain.">
+    <meta name="twitter:image" content="https://bitzerodotbase.xyz/images/bitstake_preview.png">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    
+    <header class="header">
+      <div class="logo-container">
+        <div>
+            <h1 class="glitch" data-text="BitStake">BitStake</h1>
+            <div style="font-size: 0.8em; color: var(--accent-blue); margin-top: 5px;">
+                BIT Price: $<span id="bitPriceDisplay">Loading...</span> <span id="priceSpinner" style="display:none;">↻</span>
+            </div>
+        </div>
+      </div>
+        
+        <button id="connect-btn" class="small-button" style="color: #00ffff; border-color: #00ffff;">
+            [ Connect Wallet ]
+        </button>
+      </div>
+    </header>
+
+    <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+        <div id="binaryAnimation" class="binarybit"></div>
+        <div id="loaderMessage" style="color: var(--accent-cyan); margin-top: 10px;">SYSTEM PROCESSING...</div>
+    </div>
+    <div id="tx-toast-container"></div>
+
+    <div id="connectMessage" style="text-align: center; margin-top: 50px; color: var(--accent-cyan); font-size: 1.2em;">
+        > Connect your wallet to delegate $BIT to a validator.
+        <br><span class="glitch" data-text="_ BITZERO..." style="font-size: 0.8em;">_ BITZERO...</span>
+    </div>
+
+    <div id="stakingSection" style="display: none;">
+      
+      <div class="grid-layout">
+        
+        <div class="card terminal-card">
+          <div class="card-header">
+            <span class="card-title">C:\DATA\METRICS</span>
+            <div class="window-buttons"><div class="window-button">_</div><div class="window-button">x</div></div>
+          </div>
+          <div class="card-body">
+            <div class="stat-item">
+                <p>Wallet Balance:</p> 
+                <div><strong id="Balance" class="data-value">0.000000</strong> <span id="balanceSpinner" style="display:none">↻</span></div>
+            </div>
+            <div class="stat-item">
+                <p>My Staked:</p> 
+                <div><strong id="totalStaked" class="data-value">0.000000</strong> <span id="stakedSpinner" style="display:none">↻</span></div>
+            </div>
+            <div class="stat-item">
+                <p>Pending Reward:</p> 
+                <div><strong id="pendingReward" class="data-value">0.000000</strong> <span id="rewardSpinner" style="display:none">↻</span></div>
+            </div>
+            <div class="stat-item">
+                <p>Reward Rate:</p> 
+                <div><strong id="rewardRateDisplay" class="data-value">N/A</strong></div>
+            </div>
+            <div class="stat-item">
+                <p>APY (Est):</p> 
+                <div><strong id="aprDisplay" class="data-value">0.00</strong>% <span id="aprSpinner" style="display:none">↻</span></div>
+            </div>
+             <div class="stat-item">
+                <p>Total Value Locked:</p> 
+                <div><strong id="tvlDisplay" class="data-value">0.00</strong> <span id="tvlSpinner" style="display:none">↻</span></div>
+            </div>
+             <div class="stat-item">
+                <p>Chain Total:</p> 
+                <div><strong id="totalBitZeroInChain" class="data-value">0.00</strong> <span id="totalStakedSpinner" style="display:none">↻</span></div>
+            </div>
+            
+            <div class="circular-stat-container">
+    <div class="capacity-label">Network Data Capacity</div>
+    
+    <div class="circular-progress" id="dataCircle">
+        <div class="progress-value">
+            <strong id="dataSizeDisplay">0.00</strong>
+            <span>KB Used</span>
+        </div>
+    </div>
+
+    <div style="font-size: 0.7em; color: #666;">
+        Max Capacity: 10 Billion Bits
+    </div>
+</div>
+          </div>
+        </div>
+
+        <div class="card terminal-card">
+          <div class="card-header">
+            <span class="card-title">C:\EXEC\STAKE_MGR</span>
+            <div class="window-buttons"><div class="window-button">_</div><div class="window-button">□</div></div>
+          </div>
+          <div class="card-body">
+            <div class="progress-section" style="margin-bottom: 20px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size: 0.9em;">
+                    <span>Network Capacity Usage</span>
+                    <span id="stakePercentDisplay">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="stakeBar" class="progress-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px; position: relative;">
+                <label style="font-size: 0.9em; color: #aaa;">Input Amount:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="number" id="amountInput" placeholder="0.00 BIT" min="0" step="any" style="margin-bottom: 5px; flex-grow: 1;">
+                    <button class="small-button" onclick="setInputMax()" style="height: 46px;">[MAX]</button>
+                </div>
+                <div id="estimatedReward" class="glitch" data-text="" style="font-size: 0.8em; height: 20px;">&nbsp;</div>
+            </div>
+            
+            <div class="actions">
+                <button class="scanline-button" onclick="delegateOrApprove()">Delegate</button>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="small-button" onclick="delegateAllTokens()">Delegate All</button>
+                    <button class="small-button" onclick="undelegateAllTokens()">Undelegate All</button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="small-button" onclick="undelegate()">Undelegate</button>
+                    <button id="claimRewardButton" class="small-button" onclick="claimReward()">CLAIM REWARDS</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card terminal-card full-width">
+          <div class="card-header">
+            <span class="card-title">C:\NET\NODES</span>
+             <button class="small-button" style="padding: 0 5px;" onclick="fetchValidators()">[Refresh]</button>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom: 10px; border-bottom: 1px dashed var(--retro-purple); padding-bottom: 10px;">
+                Target Node: <strong id="selectedValidatorDisplay" style="color: var(--accent-cyan);">None</strong>
+            </div>
+            
+            <div id="validatorList" class="validator-list">
+                <p class="no-transactions">> Scanning network for validators...</p>
+            </div>
+
+            <!-- For Developer <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 10px;">
+                <details>
+                    <summary style="cursor: pointer; color: #888;">> Advanced: Register New Validator</summary>
+                    <div style="margin-top: 10px;">
+                        <input type="text" id="validator_name" placeholder="Node Name">
+                        <input type="number" id="validator_commission" placeholder="Commission Rate (e.g. 500 for 5%)">
+                        <button class="small-button" onclick="registerValidator()">Register Node</button>
+                    </div>
+                </details>
+            </div> -->
+          </div>
+        </div>
+
+      </div> <div class="grid-layout" style="margin-top: 20px;">
+          
+          <div class="card terminal-card">
+              <div class="card-header">
+                  <span class="card-title">C:\DAO\VOTING</span>
+              </div>
+              <div class="card-body">
+                  <input type="text" id="proposalSearch" placeholder="Search proposals..." onkeyup="applyProposalFilter()">
+                  
+                  <div id="proposalList">
+                      <p class="no-transactions">> No active proposals.</p>
+                  </div>
+                  
+                  <button class="scanline-button" style="margin-top: 10px;" onclick="openProposalModal()">+ CREATE NEW PROPOSAL</button>
+              </div>
+          </div>
+
+          <div class="card terminal-card">
+              <div class="card-header">
+                  <span class="card-title">C:\LOGS\TX_HISTORY</span>
+                  <button class="small-button" onclick="clearTransactionHistory()">[CLR_LOGS]</button>
+              </div>
+              <div class="card-body">
+                  <div id="transactionHistory" style="height: 200px; overflow-y: auto;">
+                      </div>
+              </div>
+          </div>
+
+      </div>
+    </div> 
+    <footer class="footer">
+        <button class="static-button add-token-btn" onclick="addToken()">
+            <img src="https://raw.githubusercontent.com/BitZerodotBase/bitzerowalletmodal/refs/heads/main/images/metamask.png" width="15px" height="16" alt="BIT"> 
+            ADD TOKEN TO METAMASK
+        </button>
+        <p style="margin-top: 15px; text-align: center;">Powered By BitZero</p>
+    </footer>
+    
+</div>
+  
+  <div id="proposalModal" class="modal">
+      <div class="modal-content terminal-card">
+          <div class="card-header">
+              <span class="card-title">CREATE_PROPOSAL.EXE</span>
+              <span class="close-button" onclick="closeProposalModal()">&times;</span>
+          </div>
+          <div class="card-body">
+              <label for="proposalInput" style="color: var(--accent-cyan);">Description:</label>
+              <textarea id="proposalInput" rows="4" placeholder="Proposal details..."></textarea>
+              <button id="submitProposalButton" class="scanline-button" onclick="createProposal()">SUBMIT PROPOSAL</button>
+              <p style="font-size: 0.8em; margin-top: 10px; color: #888;">Requirement: Min Stake 100,000 BIT</p>
+          </div>
+      </div>
+  </div>
+
+  <script src="bitstake.js"></script>
+
+  <script type="module">
+    import { createWeb3Modal, defaultConfig } from 'https://esm.sh/@web3modal/ethers@4.0.1?bundle'
+    
+    const projectId = '9e70694f91f54609b080ce7d072c1442' 
+    
+    const mainnet = { chainId: 1, name: 'Ethereum', currency: 'ETH', explorerUrl: 'https://etherscan.io', rpcUrl: 'https://cloudflare-eth.com' }
+    const base = { chainId: 8453, name: 'Base', currency: 'ETH', explorerUrl: 'https://basescan.org', rpcUrl: 'https://mainnet.base.org' }
+    const baseSepolia = { chainId: 84532, name: 'Base Sepolia', currency: 'ETH', explorerUrl: 'https://sepolia.basescan.org', rpcUrl: 'https://sepolia.base.org' }
+    
+    const metadata = {
+        name: 'BitStake',
+        description: 'BitStake Validators Dashboard',
+        url: window.location.origin,
+        icons: ['https://bitzerodotbase.xyz/images/236363013.png']
+    }
+
+    try {
+        const modal = createWeb3Modal({
+            ethersConfig: defaultConfig({ metadata }),
+            chains: [base, baseSepolia, mainnet],
+            projectId,
+            defaultChain: base, 
+            enableAnalytics: true,
+            themeMode: 'dark',
+            themeVariables: {
+                '--w3m-font-family': "'VT323', monospace",
+                '--w3m-accent': '#00ffff'
+            }
+        })
+
+        const connectBtn = document.getElementById('connect-btn');
+        connectBtn.addEventListener('click', () => {
+            modal.open();
+        });
+
+        modal.subscribeProvider(async (state) => {
+            if (state.isConnected && state.address) {
+                const truncatedAddress = state.address.substring(0, 6) + '...' + state.address.substring(38);
+                connectBtn.innerText = `[ ${truncatedAddress} ]`;
+                connectBtn.style.color = "#00ffff";
+                connectBtn.style.borderColor = "#00ffff";
+                window.userAccount = state.address;
+                let targetProvider = window.ethereum;
+                if (window.okxwallet) {
+                    targetProvider = window.okxwallet;
+                }
+
+                try {
+                    if (targetProvider) {
+                        window.web3 = new Web3(targetProvider);
+                        console.log("Web3 initialized successfully.");
+                    } else {
+                        console.error("No provider found. Please install MetaMask.");
+                    }
+                } catch (e) {
+                    console.error("Web3 init failed:", e);
+                }
+
+                setTimeout(() => {
+                    document.getElementById('connectMessage').style.display = 'none';
+                    document.getElementById('stakingSection').style.display = 'block';
+                    if(typeof window.setCurrentConfig === 'function' || typeof setCurrentConfig === 'function') {
+                        const chainIdDecimal = state.chainId ? state.chainId.toString() : '8453';
+                        setCurrentConfig(chainIdDecimal);
+                        updateStakingInfo();
+                        fetchProposals();
+                        fetchValidators();
+                    }
+                }, 1000);
+            } else {
+                connectBtn.innerText = "[ Connect Wallet ]";
+                connectBtn.style.color = "#00ffff";
+                connectBtn.style.borderColor = "#00ffff";
+                if (typeof disconnectWallet === 'function') {
+                    disconnectWallet();
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Web3Modal Init Error:", error);
+    }
+  </script>
+
+</body>
+</html>
