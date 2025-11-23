@@ -1,0 +1,85 @@
+{
+  "name": "BitZero",
+  "ticker": "BIT",
+  "chain": "Base",
+  "standard": "ERC-20",
+  "decimals": 18,
+  "totalSupply": 10000000000,
+  "ContractAddrs": "",
+  "totalSupplyFormatted": "10,000,000,000",
+  "allocations": [
+    {
+      "name": "Public Sale",
+      "percentage": 15,
+      "amount": 1500000000,
+      "notes": "Tokens sold to the public (IDO/DEX). Immediate liquidity for listing."
+    },
+    {
+      "name": "Team",
+      "percentage": 13,
+      "amount": 1300000000,
+      "vesting": {
+        "cliffMonths": 6,
+        "durationMonths": 48,
+        "releaseFrequency": "monthly"
+      },
+      "notes": "Long-term team incentives to align with project success."
+    },
+    {
+      "name": "Advisors",
+      "percentage": 4,
+      "amount": 400000000,
+      "vesting": {
+        "cliffMonths": 3,
+        "durationMonths": 12,
+        "releaseFrequency": "monthly"
+      },
+      "notes": "Advisors and strategic contributors."
+    },
+    {
+      "name": "Ecosystem & Growth",
+      "percentage": 20,
+      "amount": 2000000000,
+      "notes": "Incentives for partnerships, grants, developer funds, and ecosystem growth."
+    },
+    {
+      "name": "Community / Airdrop",
+      "percentage": 17,
+      "amount": 1700000000,
+      "notes": "Community building, airdrops, and reward programs to early supporters and users."
+    },
+    {
+      "name": "Liquidity",
+      "percentage": 10,
+      "amount": 1000000000,
+      "notes": "Allocated to liquidity pools on DEXes to ensure market depth and stable trading."
+    },
+    {
+      "name": "Staking / Rewards",
+      "percentage": 15,
+      "amount": 1500000000,
+      "emission": {
+        "method": "linear",
+        "durationYears": 5,
+        "releaseFrequency": "monthly"
+      },
+      "notes": "Rewards for stakers, validators, and community programs."
+    },
+    {
+      "name": "Treasury / Reserve",
+      "percentage": 6,
+      "amount": 600000000,
+      "notes": "Protocol treasury for future funding, emergency use, and treasury management."
+    },
+    {
+      "name": "Marketing & Partnerships",
+      "percentage": 0,
+      "amount": 200000000,
+      "notes": "Growth marketing, user acquisition, AMAs, and partnership campaigns."
+    }
+  ],
+  "files": {
+    "filename": "tokenomics.json",
+    "generatedAt": "2025-10-05"
+  }
+}
