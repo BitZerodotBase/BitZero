@@ -7,22 +7,8 @@
     <link rel="icon" type="image/png" sizes="152x152" href="https://bitzerodotbase.xyz/images/236363013.png">
     <title>BitStake</title>
     <meta name="description" content="Stake BitStake to validator nodes to earn rewards, participate in DAO governance, and secure the BitZero network on Base Chain.">
-    <link rel="author" href="https://bitzerodotbase.xyz">
-    <meta name="author" content="Bitzero Community">
-    <meta name="keywords" content="BitZero, bitzero base, Bitstake, Crypto, Base Chain, Base network, Decentralized, Experiment, Staking, crypto project">
+    <meta name="keywords" content="BitZero, Bitstake, BitZero Community, $BIT, Crypto, Base Chain, Base network, Decentralized, Experiment, Staking, crypto project">
     <meta name="publisher" content="BitZero Community">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://bitzerodotbase.xyz">
-    <meta property="og:title" content="Bitzero Community">
-    <meta property="og:description" content="Stake BitStake to validator nodes to earn rewards, participate in DAO governance, and secure the BitZero network on Base Chain.">
-    <meta property="og:url" content="https://bitzerodotbase.xyz">
-    <meta property="og:site_name" content="Bitzero Community">
-    <meta property="og:image" content="/images/bitstake_preview.png">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Bitzero Community">
-    <meta name="twitter:description" content="Stake BitStake to validator nodes to earn rewards, participate in DAO governance, and secure the BitZero network on Base Chain.">
-    <meta name="twitter:image" content="/images/bitstake_preview.png">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 </head>
@@ -39,11 +25,9 @@
             </div>
         </div>
       </div>
-        
         <button id="connect-btn" class="small-button" style="color: #00ffff; border-color: #00ffff;">
             [ Connect Wallet ]
         </button>
-      </div>
     </header>
 
     <div id="loader" class="loader-container">
@@ -98,19 +82,15 @@
             </div>
             
             <div class="circular-stat-container">
-    <div class="capacity-label">Network Data Capacity</div>
-    
-    <div class="circular-progress" id="dataCircle">
-        <div class="progress-value">
-            <strong id="dataSizeDisplay">0.00</strong>
-            <span>KB Used</span>
-        </div>
-    </div>
-
-    <div style="font-size: 0.7em; color: #666;">
-        Max Capacity: 10 Billion BIT
-    </div>
-</div>
+                <div class="capacity-label">Network Data Capacity</div>
+                <div class="circular-progress" id="dataCircle">
+                    <div class="progress-value">
+                        <strong id="dataSizeDisplay">0.00</strong>
+                        <span>KB Used</span>
+                    </div>
+                </div>
+                <div style="font-size: 0.7em; color: #666;">Max: 10B BIT</div>
+            </div>
           </div>
         </div>
 
@@ -168,21 +148,12 @@
             <div id="validatorList" class="validator-list">
                 <p class="no-transactions">> Scanning network for validators...</p>
             </div>
-
-            <!-- For Developer <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 10px;">
-                <details>
-                    <summary style="cursor: pointer; color: #888;">> Advanced: Register New Validator</summary>
-                    <div style="margin-top: 10px;">
-                        <input type="text" id="validator_name" placeholder="Node Name">
-                        <input type="number" id="validator_commission" placeholder="Commission Rate (e.g. 500 for 5%)">
-                        <button class="small-button" onclick="registerValidator()">Register Node</button>
-                    </div>
-                </details>
-            </div> -->
           </div>
         </div>
 
-      </div> <div class="grid-layout" style="margin-top: 20px;">
+      </div> 
+      
+      <div class="grid-layout" style="margin-top: 20px;">
           
           <div class="card terminal-card">
               <div class="card-header">
@@ -213,7 +184,7 @@
       </div>
     </div>
     
-</div>
+  </div>
   
   <div id="proposalModal" class="modal">
       <div class="modal-content terminal-card">
@@ -231,7 +202,6 @@
   </div>
 
   <footer class="footer">
-        
         <p style="margin-top: 15px; text-align: center;">Powered By BitZero</p>
   </footer>
 
@@ -241,14 +211,12 @@
     import { createWeb3Modal, defaultConfig } from 'https://esm.sh/@web3modal/ethers@4.0.1?bundle'
     
     const projectId = '9e70694f91f54609b080ce7d072c1442' 
-    
-    const mainnet = { chainId: 1, name: 'Ethereum', currency: 'ETH', explorerUrl: 'https://etherscan.io', rpcUrl: 'https://cloudflare-eth.com' }
     const base = { chainId: 8453, name: 'Base', currency: 'ETH', explorerUrl: 'https://basescan.org', rpcUrl: 'https://mainnet.base.org' }
     const baseSepolia = { chainId: 84532, name: 'Base Sepolia', currency: 'ETH', explorerUrl: 'https://sepolia.basescan.org', rpcUrl: 'https://sepolia.base.org' }
     
     const metadata = {
         name: 'BitStake',
-        description: 'BitStake Validators Dashboard',
+        description: 'BitStake Dashboard',
         url: window.location.origin,
         icons: ['https://bitzerodotbase.xyz/images/236363013.png']
     }
@@ -256,7 +224,7 @@
     try {
         const modal = createWeb3Modal({
             ethersConfig: defaultConfig({ metadata }),
-            chains: [base, baseSepolia, mainnet],
+            chains: [base, baseSepolia],
             projectId,
             defaultChain: base, 
             enableAnalytics: true,
@@ -279,33 +247,37 @@
                 connectBtn.style.color = "#00ffff";
                 connectBtn.style.borderColor = "#00ffff";
                 window.userAccount = state.address;
-                let targetProvider = window.ethereum;
-                if (window.okxwallet) {
+                let targetProvider = null;
+                
+                if (modal.getWalletProvider()) {
+                    targetProvider = modal.getWalletProvider();
+                } 
+                else if (window.ethereum) {
+                    targetProvider = window.ethereum;
+                } 
+                else if (window.okxwallet) {
                     targetProvider = window.okxwallet;
                 }
 
-                try {
-                    if (targetProvider) {
-                        window.web3 = new Web3(targetProvider);
-                        console.log("Web3 initialized successfully.");
-                    } else {
-                        console.error("No provider found. Please install MetaMask.");
-                    }
-                } catch (e) {
-                    console.error("Web3 init failed:", e);
-                }
-
-                setTimeout(() => {
+                if (targetProvider) {
+                    window.web3 = new Web3(targetProvider);
+                    console.log("Web3 initialized.");
+                    
                     document.getElementById('connectMessage').style.display = 'none';
                     document.getElementById('stakingSection').style.display = 'block';
-                    if(typeof window.setCurrentConfig === 'function' || typeof setCurrentConfig === 'function') {
+                    
+                    if(typeof setCurrentConfig === 'function') {
                         const chainIdDecimal = state.chainId ? state.chainId.toString() : '8453';
                         setCurrentConfig(chainIdDecimal);
                         updateStakingInfo();
                         fetchProposals();
                         fetchValidators();
                     }
-                }, 1000);
+                } else {
+                    console.error("No compatible provider found for Web3.js");
+                    alert("Wallet connected but provider not found. Please use a Web3 browser.");
+                }
+
             } else {
                 connectBtn.innerText = "[ Connect Wallet ]";
                 connectBtn.style.color = "#00ffff";
