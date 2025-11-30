@@ -11,6 +11,10 @@ let selectedValidatorName = 'None';
 let isFetchingValidators = false;
 let isConnecting = false;
 let isTxInProgress = false;
+let isUpdatingData = false;
+let isMaxStakedAction = false;
+let lastRpcErrorTimestamp = 0;
+const RPC_ERROR_COOLDOWN = 60000;
 const TX_HISTORY_KEY = 'BitZeroTxHistory';
 const activeTimers = {};
 
@@ -96,14 +100,22 @@ const amountInputEl = document.getElementById('amountInput');
 if (amountInputEl) {
     amountInputEl.addEventListener('input', async function() {
         if (!window.userAccount || !tokenContract) return;
-        
+        if (isMaxStakedAction) {
+            this.style.borderColor = 'var(--border-color)';
+            this.style.color = 'var(--text-color)';
+            return;
+        }
+
         const inputVal = this.value;
-        if (!inputVal) return;
+        if (!inputVal) {
+             this.style.borderColor = 'var(--border-color)';
+             this.style.color = 'var(--text-color)';
+             return;
+        }
 
         try {
             const inputWei = window.web3.utils.toWei(inputVal.toString(), 'ether');
             const balanceWei = await tokenContract.methods.balanceOf(window.userAccount).call();
-
             if (BigInt(inputWei) > BigInt(balanceWei)) {
                 this.style.borderColor = 'red';
                 this.style.color = 'red';
@@ -1813,12 +1825,23 @@ window.addEventListener('load', async () => {
     }
     
     displayTransactionHistory();
-    setInterval(() => {
-        if (window.userAccount && !document.hidden) {
-            autoUpdatePendingRewards();
-            updateStakingInfo();
+    
+    setInterval(async () => {
+        if (window.userAccount && !document.hidden && !isUpdatingData) {
+            try {
+                isUpdatingData = true;
+                
+                await autoUpdatePendingRewards();
+                await new Promise(r => setTimeout(r, 1000));
+                await updateStakingInfo();
+                
+            } catch (e) {
+                console.warn("Auto-update skipped:", e);
+            } finally {
+                isUpdatingData = false;
+            }
         }
-    }, 5000);
+    }, 15000);
 });
 
 async function handleNetworkSwitch() {
@@ -2054,6 +2077,8 @@ async function autoUpdatePendingRewards() {
             claimButton.disabled = BigInt(pendingReward) === BigInt(0) || isTxInProgress;
         }
     } catch (error) {
+        console.error("Failed to fetch pending rewards:", error);
+        showRpcErrorAlert(error);
     }
 }
 
@@ -2120,6 +2145,7 @@ async function updateStakingInfo() {
 
   } catch (error) {
     console.error('Failed to fetch staking info:', error);
+	showRpcErrorAlert(error);
   } finally {
     hideSpinner('balanceSpinner');
     hideSpinner('stakedSpinner');
@@ -2267,6 +2293,7 @@ async function fetchProposals() {
     } catch (error) {
         console.error("Failed to fetch proposals:", error);
         proposalListDiv.innerHTML = '<p class="error">> Error loading proposals.</p>';
+		showRpcErrorAlert(error);
     }
 }
 
@@ -2304,13 +2331,18 @@ function formatTimeLeft(totalSeconds) {
     return `${days}d ${hours}h ${minutes}m`;
 }
 
-async function fetchValidators() {
-    if (isFetchingValidators || !validatorRegistryContract) return;
+async function fetchValidators(forceRefresh = false) {
+    if (isFetchingValidators || (!forceRefresh && document.querySelectorAll('.validator-item').length > 0)) {
+        return; 
+    }
+    
+    if (!validatorRegistryContract) return;
     isFetchingValidators = true;
     const listEl = document.getElementById('validatorList');
 
     try {
-        listEl.innerHTML = '<p class="no-transactions">> Fetching validators...</p>';
+        if(forceRefresh) listEl.innerHTML = '<p class="no-transactions">> Fetching validators...</p>';
+        
         const validatorAddresses = await validatorRegistryContract.methods.getValidators().call();
         
         if (!validatorAddresses || validatorAddresses.length === 0) {
@@ -2327,6 +2359,7 @@ async function fetchValidators() {
         } catch (e) {}
 
         for (const address of validatorAddresses) {
+            await new Promise(r => setTimeout(r, 200)); 
             const lowerCaseAddress = address.toLowerCase();
             if (displayedValidators[lowerCaseAddress]) continue;
             
@@ -2390,12 +2423,12 @@ async function fetchValidators() {
 
     } catch (error) {
         console.error("Failed validators:", error);
-        listEl.innerHTML = `<p class="no-transactions error">> Error: ${error.message}</p>`;
+        listEl.innerHTML = `<p class="no-transactions error">> Error: Rate limit. Try refresh button.</p>`;
+		showRpcErrorAlert(error);
     } finally {
         isFetchingValidators = false;
     }
 }
-
 function selectValidator(address, name) {
     selectedValidator = address;
     selectedValidatorName = name;
@@ -2543,7 +2576,139 @@ async function setInputMax() {
     }
 }
 
+async function setInputMaxStaked() {
+    if (!window.userAccount || !stakingContract) return;
+    try {
+        const stakedAmount = await stakingContract.methods.getStaked(window.userAccount).call();
+        const formattedStaked = window.web3.utils.fromWei(stakedAmount, 'ether');
+        
+        const input = document.getElementById('amountInput');
+        if(input) {
+            isMaxStakedAction = true;
+            input.value = formattedStaked;
+            input.dispatchEvent(new Event('input'));
+            input.style.borderColor = 'var(--border-color)';
+            input.style.color = 'var(--text-color)';
+            setTimeout(() => {
+                isMaxStakedAction = false;
+            }, 500);
+        }
+    } catch (e) {
+        console.error("Max Staked error:", e);
+        isMaxStakedAction = false;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchBitPrice();
     setInterval(fetchBitPrice, 60000);
 });
+
+/**
+ * @param {Object} web3Instance
+ * @param {string} address
+ * @returns {Promise<boolean>}
+ */
+
+window.verifyWalletOwnership = async function(web3Instance, address) {
+    if (sessionStorage.getItem(`verified_${address}`)) {
+        return true;
+    }
+
+    const timestamp = Date.now();
+    const message = `Welcome to BitStake Dashboard!\n\nPlease sign this message to verify your wallet ownership.\n\nWallet: ${address}\nTimestamp: ${timestamp}`;
+    try {
+        const signature = await web3Instance.eth.personal.sign(message, address, '');
+        console.log("Signature valid:", signature);
+        sessionStorage.setItem(`verified_${address}`, 'true');
+        return true;
+    } catch (error) {
+        console.error("User rejected verification:", error);
+        return false;
+    }
+};
+
+/**
+ * Displays a BitZero Error Alert.
+ * @param {Object} error - The caught error object.
+ */
+function showRpcErrorAlert(error) {
+    const now = Date.now();
+    
+    if (now - lastRpcErrorTimestamp > RPC_ERROR_COOLDOWN) {
+        lastRpcErrorTimestamp = now;
+
+        let errorMessage = "Lost connection to BitZero Neural Net. Re-establishing link...";
+        let errorTitle = "NET_ instability";
+        
+        if (error && error.message) {
+            
+            if (error.message.includes('rate limit') || error.message.includes('429')) {
+                errorTitle = "RPC_ERROR";
+                errorMessage = "High traffic density detected on BitZero Public RPC Network.\n\nThe public data pipeline is currently throttled due to excessive requests. Connection will resume automatically once bandwidth clears.";
+            
+            } else if (error.message.includes('403')) {
+                errorTitle = "RPC_ACCESS_DENIED";
+                errorMessage = "The RPC Network Gateway refused the connection.\n\nYour IP or Wallet request was blocked by the node firewall. Please check your network settings.";
+            
+            } else if (error.message.includes('Invalid JSON RPC')) {
+                errorTitle = "PACKET_LOSS";
+                errorMessage = "Incomplete data received from RPC Endpoint.\n\nThe network grid is experiencing latency/packet loss. Syncing data...";
+            }
+        }
+        
+        if (typeof showCustomAlert === 'function') {
+            showCustomAlert(errorMessage, errorTitle);
+        } else {
+            alert(`[${errorTitle}]\n\n${errorMessage}`);
+        }
+    }
+}
+function showCustomAlert(message, title = "SYSTEM_NOTIFICATION") {
+    const overlay = document.getElementById('customAlertOverlay');
+    const msgEl = document.getElementById('customAlertMessage');
+    const titleEl = document.getElementById('customAlertTitle');
+    
+    if (overlay && msgEl) {
+        msgEl.innerHTML = message.replace(/\n/g, "<br>");
+        if (titleEl) titleEl.innerText = title;
+        
+        overlay.classList.add('show');
+        
+        playAlertSound();
+    } else {
+        alert(message);
+    }
+}
+
+function closeCustomAlert() {
+    const overlay = document.getElementById('customAlertOverlay');
+    if (overlay) {
+        overlay.classList.remove('show');
+    }
+}
+
+window.addEventListener('click', function(event) {
+    const overlay = document.getElementById('customAlertOverlay');
+    if (event.target === overlay) {
+        closeCustomAlert();
+    }
+});
+
+function playAlertSound() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.type = 'square';
+        oscillator.frequency.value = 440;
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        oscillator.start();
+        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.1);
+        oscillator.stop(audioCtx.currentTime + 0.1);
+    } catch(e) { 
+    }
+}
