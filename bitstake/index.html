@@ -112,9 +112,12 @@
 
             <div style="margin-bottom: 15px; position: relative;">
                 <label style="font-size: 0.9em; color: #aaa;">Input Amount:</label>
-                <div style="display: flex; gap: 10px;">
+                <br><br>
+                <div style="display: flex; gap: 5px;">
                     <input type="number" id="amountInput" placeholder="0.00 BIT" min="0" step="any" style="margin-bottom: 5px; flex-grow: 1;">
-                    <button class="small-button" onclick="setInputMax()" style="height: 46px;">[MAX]</button>
+                    <button class="small-button" onclick="setInputMax()" style="height: 46px; font-size: 0.8em; white-space: nowrap;">[MAX_WALLET]</button>
+                    
+                    <button class="small-button" onclick="setInputMaxStaked()" style="height: 46px; font-size: 0.8em; color: var(--retro-purple); border-color: var(--retro-purple); white-space: nowrap;">[MAX_STAKED]</button>
                 </div>
                 <div id="estimatedReward" class="glitch" data-text="" style="font-size: 0.8em; height: 20px;">&nbsp;</div>
             </div>
@@ -138,11 +141,11 @@
         <div class="card terminal-card full-width">
           <div class="card-header">
             <span class="card-title">C:\NET\NODES</span>
-             <button class="small-button" style="padding: 0 5px;" onclick="fetchValidators()">[Refresh]</button>
+             <button class="small-button" style="padding: 0 5px;" onclick="fetchValidators(true)">[Refresh]</button>
           </div>
           <div class="card-body">
             <div style="margin-bottom: 10px; border-bottom: 1px dashed var(--retro-purple); padding-bottom: 10px;">
-                Target Node: <strong id="selectedValidatorDisplay" style="color: var(--accent-cyan);">None</strong>
+                Selected Validator: <strong id="selectedValidatorDisplay" style="color: var(--accent-cyan);">None</strong>
             </div>
             
             <div id="validatorList" class="validator-list">
@@ -201,6 +204,25 @@
       </div>
   </div>
 
+  <div id="customAlertOverlay" class="custom-alert-overlay">
+    <div class="custom-alert-box terminal-card">
+        <div class="card-header error-header">
+            <span class="card-title" id="customAlertTitle">SYSTEM_MSG.EXE</span>
+            <div class="window-buttons">
+                <div class="window-button" onclick="closeCustomAlert()">x</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="alert-icon">!</div>
+            <p id="customAlertMessage" class="alert-message">System message placeholder.</p>
+            
+            <div class="alert-actions">
+                <button class="small-button" onclick="closeCustomAlert()">[ ACKNOWLEDGE ]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
   <footer class="footer">
         <p style="margin-top: 15px; text-align: center;">Powered By BitZero</p>
   </footer>
@@ -209,7 +231,6 @@
 
   <script type="module">
     import { createWeb3Modal, defaultConfig } from 'https://esm.sh/@web3modal/ethers@4.0.1?bundle'
-    
     const projectId = '9e70694f91f54609b080ce7d072c1442' 
     const base = { chainId: 8453, name: 'Base', currency: 'ETH', explorerUrl: 'https://basescan.org', rpcUrl: 'https://mainnet.base.org' }
     const baseSepolia = { chainId: 84532, name: 'Base Sepolia', currency: 'ETH', explorerUrl: 'https://sepolia.basescan.org', rpcUrl: 'https://sepolia.base.org' }
@@ -242,30 +263,34 @@
 
         modal.subscribeProvider(async (state) => {
             if (state.isConnected && state.address) {
-                const truncatedAddress = state.address.substring(0, 6) + '...' + state.address.substring(38);
-                connectBtn.innerText = `[ ${truncatedAddress} ]`;
-                connectBtn.style.color = "#00ffff";
-                connectBtn.style.borderColor = "#00ffff";
-                window.userAccount = state.address;
                 let targetProvider = null;
-                
-                if (modal.getWalletProvider()) {
-                    targetProvider = modal.getWalletProvider();
-                } 
-                else if (window.ethereum) {
-                    targetProvider = window.ethereum;
-                } 
-                else if (window.okxwallet) {
-                    targetProvider = window.okxwallet;
-                }
+                if (modal.getWalletProvider()) targetProvider = modal.getWalletProvider();
+                else if (window.ethereum) targetProvider = window.ethereum;
+                else if (window.okxwallet) targetProvider = window.okxwallet;
 
                 if (targetProvider) {
                     window.web3 = new Web3(targetProvider);
-                    console.log("Web3 initialized.");
-                    
+                    window.userAccount = state.address;
+                    if(typeof showLoader === 'function') showLoader("Verifying Wallet Ownership...");
+                    const isVerified = await window.verifyWalletOwnership(window.web3, state.address);
+                    if (!isVerified) {
+                        alert("Verification Failed: You must sign the message to access the dashboard.");
+                        if(typeof hideLoader === 'function') hideLoader();
+                        modal.disconnect();
+                        return;
+                    }
+
+                    const truncatedAddress = state.address.substring(0, 6) + '...' + state.address.substring(38);
+                    connectBtn.innerText = `[ ${truncatedAddress} ]`;
+                    connectBtn.style.color = "#00ffff";
+                    connectBtn.style.borderColor = "#00ffff";
+
+                    console.log("Web3 initialized & Verified. | 01010111 01100101 01100010 00110011 00100000 01101001 01101110 01101001 01110100 01101001 01100001 01101100 01101001 01111010 01100101 01100100 00100000 00100110 00100000 01010110 01100101 01110010 01101001 01100110 01101001 01100101 01100100 00101110");
                     document.getElementById('connectMessage').style.display = 'none';
                     document.getElementById('stakingSection').style.display = 'block';
                     
+                    if(typeof hideLoader === 'function') hideLoader();
+
                     if(typeof setCurrentConfig === 'function') {
                         const chainIdDecimal = state.chainId ? state.chainId.toString() : '8453';
                         setCurrentConfig(chainIdDecimal);
@@ -274,8 +299,8 @@
                         fetchValidators();
                     }
                 } else {
-                    console.error("No compatible provider found for Web3.js");
-                    alert("Wallet connected but provider not found. Please use a Web3 browser.");
+                    console.error("No compatible provider found");
+                    alert("Wallet connected but provider not found.");
                 }
 
             } else {
@@ -290,7 +315,7 @@
     } catch (error) {
         console.error("Web3Modal Init Error:", error);
     }
-  </script>
+</script>
 
 </body>
 </html>
