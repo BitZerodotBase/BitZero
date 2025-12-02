@@ -1,3 +1,0 @@
-Contact: mailto: bitzerodotbase@gmail.com
-Preferred-Languages: en
-Canonical: https://bitzerodotbase.xyz/.well-known/security.txt
