@@ -52,12 +52,12 @@
         <h1 class="glitch" data-text="BitZero">BitZero</h1>
         <div class="wallet-section">
             <button onclick="window.location.href='/bitstake/'">BitStake 
-               <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link w-3.5 h-3.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link w-3.5 h-3.5">
                     <path d="M15 3h6v6"></path><path d="M10 14 21 3"></path>
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                 </svg></button>
-            <button onclick="window.location.href=''" disabled>BitNode 
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link w-3.5 h-3.5">
+                <button onclick="window.location.href='https://bitzerodotbase-node.vercel.app'">BitNode 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link w-3.5 h-3.5">
                     <path d="M15 3h6v6"></path><path d="M10 14 21 3"></path>
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                 </svg></button>
@@ -93,7 +93,7 @@
                         <li>
                             <strong>BitZero Nodes:</strong> Activate a node to help validate the ecosystem.
                             <br>
-                            <a style="color: #808080;">[ Launch BitNode Dashboard ]</a> <a title="Under Construction">Under Construction</a>
+                            <a href="https://bitzerodotbase-node.vercel.app">[ Launch BitNode Dashboard ]</a>
                         </li>
                     </ul>
                 </div>
@@ -186,21 +186,21 @@
                         <p class="folder-content">1. Bridge ETH to Base on <a href="https://www.relay.link/bridge/base?fromChainId=1&fromCurrency=0x0000000000000000000000000000000000000000&toCurrency=0x0000000000000000000000000000000000000000" target="_blank" data-text="relay.link">Relay</a><br>2. Wait for Launch<br>3. Paste Contract Address<br>4. Swap ETH for $BIT</p>
                     </details>
                     <details class="terminal-details">
-            <summary>> [Node Benefits?</summary>
-            <p class="folder-content">Running a node requires 10,000 $BIT collateral. Operators help validate the network.</p>
-        </details>
-    </div>
-</section>
-
-<section class="card terminal-card">
-            <div class="card-header">
-              <span class="card-title">C:\TOKEN\CA</span>
-              <div class="window-buttons">
+                        <summary>> [Node Benefits?</summary>
+                        <p class="folder-content">Running a node requires 10,000 $BIT collateral. Operators help validate the network.</p>
+                    </details>
+                </div>
+            </section>
+            
+            <section class="card terminal-card">
+                <div class="card-header">
+                    <span class="card-title">C:\TOKEN\CA</span>
+                    <div class="window-buttons">
                         <div class="window-button">-</div>
                         <div class="window-button">□</div>
                         <div class="window-button">×</div>
                     </div>
-            </div>
+                </div>
                 <div class="card-body">
                 <p>Contract:</p>
                 <p style="display: flex; align-items: center; gap: 10px;">
@@ -210,21 +210,110 @@
             </section>
 
             <section class="card terminal-card full-width">
-    <div class="card-header">
-        <span class="card-title">C:\SYSTEM\NETWORK_STATUS.LOG</span>
-        <div class="window-buttons">
-            <div class="window-button">-</div>
-            <div class="window-button">□</div>
-            <div class="window-button">×</div>
-        </div>
-    </div>
-    <div class="card-body" style="height: 200px; overflow: hidden; position: relative;">
-        <div id="terminal-logs" style="font-family: 'VT323'; color: #00ffff; font-size: 16px;">
-    <p>> Initializing connection to Base Chain... [OK]</p>
-    <p>> Connected to Mainnet.</p>
-    <p>> System Ready.</p></div>
-    </div>
-</section>
+                <div class="card-header">
+                    <span class="card-title">C:\SYSTEM\NETWORK_STATUS.LOG</span>
+                    <div class="window-buttons">
+                        <div class="window-button">-</div>
+                        <div class="window-button">□</div>
+                        <div class="window-button">×</div>
+                    </div>
+                </div>
+                <div class="card-body" style="height: 200px; overflow: hidden; position: relative;">
+                    <div id="terminal-logs" style="font-family: 'VT323'; color: #00ffff; font-size: 16px;">
+                        <p>> Initializing connection to Base Chain... [OK]</p>
+                        <p>> Connected to Mainnet.</p>
+                        <p>> System Ready.</p></div>
+                    </div>
+                </section>
+                
+                <section class="card terminal-card full-width">
+                    <div class="card-header">
+                        <span class="card-title">C:\DATA\ECOSYSTEM</span>
+                        <div class="window-buttons">
+                        <div class="window-button">-</div>
+                        <div class="window-button">□</div>
+                        <div class="window-button">×</div>
+                    </div>
+            </div>
+            <div class="card-body">
+                <div style="text-align: center; margin-top: 15px; background-color:#000000; ">
+                    <h3 style="font-weight: bold; margin-bottom: 10px;">> BitZero Ecosystem:</h3>
+                    <div style="border-radius:30px; display: flex; flex-wrap: wrap; justify-content: space-evenly; align-items: center; padding: 20px;">
+                        
+                        <div id="bitstake" class="card-terminal" style="max-width: 400px; border: inset #8c00ff 1px;">
+                            <a style="text-decoration: none;" target="_blank" href="https://bitzerodotbase.vercel.app/bitstake/">
+                            <div class="card-header">
+                                <span class="card-title">\BITSTAKE</span>
+                                <div class="window-buttons">
+                                    <div class="window-button">-</div>
+                                    <div class="window-button">□</div>
+                                    <div class="window-button">×</div>
+                                </div>
+                            </div>
+                            <img src="https://raw.githubusercontent.com/BitZerodotBase/assets/refs/heads/main/bitzeroe.png" alt="BitStake" width="150">
+                            <br>
+                            <p>Enables staking of $BIT and distributes rewards to participants based on a defined emission schedule.</p>
+                            <h6>&gt; yield</h6>
+                            </a>
+                        </div>
+
+                        <div id="bitnode" class="card-terminal" style="max-width: 350px; border: inset #8c00ff 1px;">
+                            <a style="text-decoration: none;" target="_blank" href="https://bitzerodotbase-node.vercel.app/">
+                            <div class="card-header">
+                                <span class="card-title">\BITNODE</span>
+                                <div class="window-buttons">
+                                    <div class="window-button">-</div>
+                                    <div class="window-button">□</div>
+                                    <div class="window-button">×</div>
+                                </div>
+                            </div>
+                            <img src="https://raw.githubusercontent.com/BitZerodotBase/assets/refs/heads/main/bitzeroe.png" alt="BitNode" width="150">
+                            <br>
+                            <p>Manages node operations and deposits.</p>
+                            <h6>&gt; tools</h6>
+                            </a>
+                        </div>
+
+                        <div id="bitdao" class="card-terminal" style="max-width: 350px; border: inset #8c00ff 1px;">
+                            <a style="text-decoration: none;" target="_blank" href="https://github.com/BitZerodotBase/contract/blob/main/bitstakedaov2.sol">
+                            <div class="card-header">
+                                <span class="card-title">\BITDAO</span>
+                                <div class="window-buttons">
+                                    <div class="window-button">-</div>
+                                    <div class="window-button">□</div>
+                                    <div class="window-button">×</div>
+                                </div>
+                            </div>
+                            <img src="https://raw.githubusercontent.com/BitZerodotBase/assets/refs/heads/main/bitzeroe.png" alt="BitDao" width="150">
+                            <br>
+                            <p>Governance contract that manages proposals, voting, and controls the treasury via a timelock mechanism.</p>
+                            <h6>&gt; tools &gt; gov</h6>
+                            </a>
+                        </div>
+
+                        <div id="bitether-fusaka" class="card-terminal" style="max-width: 350px; border: inset #8c00ff 1px;">
+                            <a style="text-decoration: none;" target="_blank" href="https://opensea.io/collection/bitether-fusaka">
+                            <div class="card-header">
+                                <span class="card-title">\BITETHER\FUSAKA</span>
+                                <div class="window-buttons">
+                                    <div class="window-button">-</div>
+                                    <div class="window-button">□</div>
+                                    <div class="window-button">×</div>
+                                </div>
+                            </div>
+                            <img src="https://raw.githubusercontent.com/BitZerodotBase/assets/refs/heads/main/bitzeroe.png" alt="BiEther" width="150">
+                            <br>
+                            <p>The Access Key to the BitZero Ecosystem Optimized by the Fusaka Upgrade
+                                The BitEther: Fusaka NFT collection serves as the gateway to a revolutionary $BIT Application Ecosystem....</p>
+                            <h6>&gt; nft</h6>
+                            </a>
+                        </div>
+
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+        </section>
             
         <section class="card terminal-card full-width">
             <div class="card-header">
@@ -293,7 +382,7 @@
                         <div style="text-align: center;">
                             <img src="https://raw.githubusercontent.com/BitZerodotBase/assets/refs/heads/main/tokenomics.jpg" alt="Tokenomics" width="150">
                             <br>
-                            <a style="text-decoration: none;" target="_blank" href="https://bitzerodotbase.xyz/tokenomics.json">
+                            <a style="text-decoration: none;" target="_blank" href="/tokenomics.json">
                                 <div>&gt; [Tokenomics]</div>
                             </a>
                         </div>
@@ -309,7 +398,7 @@
                         <div style="text-align: center;">
                             <img src="https://raw.githubusercontent.com/BitZerodotBase/assets/refs/heads/main/whitepaper.jpg" alt="Whitepaper of BitZero" width="150">
                             <br>
-                            <a style="text-decoration: none;" target="_blank" href="https://bitzerodotbase.xyz/bitzero.pdf">
+                            <a style="text-decoration: none;" target="_blank" href="/bitzero.pdf">
                                 <div>&gt; [Whitepaper]</div>
                             </a>
                         </div>
@@ -353,7 +442,9 @@
 
             <div style="margin-top: 10px; font-size: 0.8em;">
             <a href="/legal/bitzero_general_tos.html" style="color: #00ffff; text-align: center; margin-right: 10px;">[Terms of Service]</a>
+            <br>
             <a href="/legal/privacy.html" style="color: #00ffff; text-align: center;">[Privacy Policy]</a>
+            <br>
             <a href="/news/index.html" style="color: #00ffff; text-align: center;">[News]</a>
         </div>
 
